@@ -1,6 +1,6 @@
 ; Aster for Plex for Windows: the container's program, run as a Windows service on the PC beside Plex.
 ;
-; Built by .github/workflows/plex-image.yml from a self-contained win-x64 publish of Aster.Plex:
+; Built by .github/workflows/release.yml from a self-contained win-x64 publish of Aster.Plex:
 ;   iscc /DAppVersion=0.2.0 /DSource=..\publish AsterForPlex.iss
 ;
 ; - The program goes in Program Files; its data (settings.json, users\, as /config in Docker) in
@@ -26,8 +26,8 @@ AppName=Aster for Plex
 AppVersion={#AppVersion}
 AppVerName=Aster for Plex {#AppVersion}
 AppPublisher=Aster Media Player
-AppPublisherURL=https://github.com/AsterMediaPlayer/aster-companion-plugins
-AppSupportURL=https://github.com/AsterMediaPlayer/aster-companion-plugins/tree/main/AsterPlex
+AppPublisherURL=https://github.com/AsterMediaPlayer/aster-plex-sidecar
+AppSupportURL=https://github.com/AsterMediaPlayer/aster-plex-sidecar
 VersionInfoVersion={#AppVersion}
 DefaultDirName={autopf}\Aster for Plex
 DisableProgramGroupPage=yes

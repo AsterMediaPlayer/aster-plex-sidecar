@@ -16,7 +16,7 @@ using Yarp.ReverseProxy.Forwarder;
 // Plex, so the container is itself one of the server's addresses (see README.md).
 CompanionSettings.Load();
 
-// On Windows it runs as a service (the installer's, AsterPlex/windows/), which starts in System32: its own files are
+// On Windows it runs as a service (the installer's, windows/), which starts in System32: its own files are
 // beside the program. Elsewhere, and run by hand, it's as before.
 var service = Microsoft.Extensions.Hosting.WindowsServices.WindowsServiceHelpers.IsWindowsService();
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions

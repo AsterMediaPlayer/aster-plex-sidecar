@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: "Build, tests, image"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build Aster.Plex -c Release
+      - run: dotnet test Aster.Plex.Tests
+      # The Channels page's tag rules are Aster Channels' own (and so the apps'), kept in aster-companion-plugins.
+      - name: The Channels page's tag rules are the plugin's
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/AsterMediaPlayer/aster-companion-plugins/main/AsterChannels/Jellyfin.Plugin.AsterChannels/Web/channel-tags.js -o "$RUNNER_TEMP/channel-tags.js"
+          cmp "$RUNNER_TEMP/channel-tags.js" Aster.Plex/wwwroot/aster/channels/channel-tags.js
+      - name: The image builds
+        run: docker build -t aster-plex-sidecar .

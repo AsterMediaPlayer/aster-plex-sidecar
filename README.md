@@ -3,6 +3,10 @@
 The Aster Discovery and Tracking plugin's features for a **Plex** server, which can't take plugins: a small
 container that runs beside Plex and answers the Aster apps the way the Jellyfin plugin does.
 
+> **Moved here** from [aster-companion-plugins](https://github.com/AsterMediaPlayer/aster-companion-plugins) (its `AsterPlex/` folder), and the image is now
+> `ghcr.io/astermediaplayer/aster-plex-sidecar`. Already running `aster-plex`? Change only the `image:` line; keep your
+> `/config` volume as it is, and everything you've set up carries over.
+
 - **Tracking:** each person on the server links their own Simkl, AniList, MyAnimeList, Last.fm, ListenBrainz and
   Hardcover accounts from the app (Settings › Tracking), and what they watch and listen to in **any** Plex app is sent
   there, with the plugin's rules, retries and Recent Sends.
@@ -18,8 +22,8 @@ container that runs beside Plex and answers the Aster apps the way the Jellyfin 
   settings are kept in its playlist's description (`aster:channel, aster:number=3, …`), as the Aster apps keep them,
   and each person's playlists are their own.
 
-  The page is `AsterChannels/…/Web/channels.js` with only its words changed, and `channel-tags.js` exactly as it is
-  there (CI checks it). `plex-api.js` answers its Jellyfin calls from Plex, as the apps do, through
+  The page is [Aster Channels](https://github.com/AsterMediaPlayer/aster-companion-plugins/tree/main/AsterChannels)' `Web/channels.js` with only its words changed, and
+  `channel-tags.js` exactly as it is there (CI compares it with the copy on that repository's `main`). `plex-api.js` answers its Jellyfin calls from Plex, as the apps do, through
   `/aster/plex/…`, which goes to Plex as whoever is signed in to the page.
 
 ## How it works
@@ -33,22 +37,22 @@ container that runs beside Plex and answers the Aster apps the way the Jellyfin 
 - **One of Plex's addresses.** Everything that isn't the container's own API is passed straight through to Plex, so
   the container's address works as a Plex address for any Plex app too.
 - **The same code as the plugin.** The service clients, the scrobbler and the API controllers are copies of
-  `AsterTracking/Jellyfin.Plugin.AsterTracking`, with Jellyfin's items swapped for `Tracking/PlayedItem.cs`. Keep fixes
+  [Aster Discovery and Tracking](https://github.com/AsterMediaPlayer/aster-companion-plugins/tree/main/AsterTracking), with Jellyfin's items swapped for `Tracking/PlayedItem.cs`. Keep fixes
   in step with the plugin until the two share a library.
 
 ## Run it
 
 ```yaml
 services:
-  aster-plex:
-    image: ghcr.io/astermediaplayer/aster-plex:latest
+  aster-plex-sidecar:
+    image: ghcr.io/astermediaplayer/aster-plex-sidecar:latest
     restart: unless-stopped
     ports: ["8098:8098"]
     environment:
       PLEX_URL: "http://192.168.1.10:32400"
       PLEX_TOKEN: "the server owner's token"
     volumes:
-      - ./aster-plex:/config
+      - ./aster-plex-sidecar:/config
 ```
 
 Then open `http://<container>:8098/aster/` and sign in with Plex. Without `PLEX_URL` and `PLEX_TOKEN`, the page sets
@@ -69,7 +73,7 @@ is the same as above. The Start menu's **Aster for Plex** opens the page again l
   Windows 11 and Server 2022 can. Everything else works on both.
 - Problems show in Event Viewer › Windows Logs › Application, from Aster.Plex.
 
-`windows/AsterForPlex.iss` is the installer, built by `.github/workflows/plex-image.yml` from a self-contained
+`windows/AsterForPlex.iss` is the installer, built by `.github/workflows/release.yml` from a self-contained
 `win-x64` publish; it's installed, reached and uninstalled on a Windows runner before it's attached to the release.
 
 ### Letting the apps find it
@@ -97,8 +101,14 @@ names them instead.
 ```sh
 dotnet build Aster.Plex
 dotnet test Aster.Plex.Tests
-docker build -t aster-plex .
+docker build -t aster-plex-sidecar .
 ```
+
+## Releasing
+
+Set the version in `Aster.Plex/Aster.Plex.csproj`, then push a tag for it: `v0.2.0` publishes
+`ghcr.io/astermediaplayer/aster-plex-sidecar:0.2.0` and `:latest`, and a GitHub release with the Windows installer.
+A push to any other branch than `main` publishes `:dev` for testing. Both need the `ASTER_*` service app secrets.
 
 The service app keys come in the same way as the plugin's: `ASTER_SIMKL_CLIENT_ID` and the rest, as build arguments
 for an official image. A build without them reads the server's own from `settings.json`.

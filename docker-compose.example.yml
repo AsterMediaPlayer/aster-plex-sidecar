@@ -1,8 +1,8 @@
 # Aster for Plex beside Plex. Copy to docker-compose.yml and fill in the token.
 services:
-  aster-plex:
-    image: ghcr.io/astermediaplayer/aster-plex:latest
-    container_name: aster-plex
+  aster-plex-sidecar:
+    image: ghcr.io/astermediaplayer/aster-plex-sidecar:latest
+    container_name: aster-plex-sidecar
     restart: unless-stopped
     ports:
       - "8098:8098"
@@ -14,4 +14,4 @@ services:
       # The address your apps reach this container at, from outside the house too (later versions publish it to Plex).
       PUBLIC_URL: ""
     volumes:
-      - ./aster-plex:/config
+      - ./aster-plex-sidecar:/config

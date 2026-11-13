@@ -1,4 +1,4 @@
-# Aster for Plex. Build from AsterPlex/:  docker build -t aster-plex .
+# Aster for Plex. Build from the repository's root:  docker build -t aster-plex-sidecar .
 # Official images pass Aster's service app keys as build arguments (from the repository's Actions secrets).
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG ASTER_SIMKL_CLIENT_ID=""
