@@ -268,7 +268,7 @@ async function showOwner() {
 
       <details ${missing.length ? "open" : ""}>
         <summary>Developer apps${missing.length ? ` (needed for ${esc(missing.join(", "))})` : ""}</summary>
-        <p class="muted">Aster's own apps on each service come built in. Fill these in only to use this server's own instead.</p>
+        <p class="muted">Aster's own apps on each service come built in, except Last.fm: it needs this server's own API account (from last.fm/api/account/create) before anyone can link it. Fill in the others only to use this server's own instead.</p>
         <label class="field"><span>Simkl client id</span><input type="text" name="simklClientId" value="${esc(s.simklClientId)}" autocomplete="off"></label>
         <label class="field"><span>AniList client id</span><input type="text" name="aniListClientId" value="${esc(s.aniListClientId)}" autocomplete="off"></label>
         <label class="field"><span>MyAnimeList client id</span><input type="text" name="myAnimeListClientId" value="${esc(s.myAnimeListClientId)}" autocomplete="off"></label>

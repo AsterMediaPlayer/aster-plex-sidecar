@@ -64,8 +64,8 @@ jobs:
           ASTER_LASTFM_API_KEY: ${{ secrets.ASTER_LASTFM_API_KEY }}
           ASTER_LASTFM_SHARED_SECRET: ${{ secrets.ASTER_LASTFM_SHARED_SECRET }}
         run: |
-          for name in ASTER_SIMKL_CLIENT_ID ASTER_ANILIST_CLIENT_ID ASTER_MAL_CLIENT_ID ASTER_HARDCOVER_CLIENT_ID \
-                      ASTER_LASTFM_API_KEY ASTER_LASTFM_SHARED_SECRET; do
+          # Last.fm isn't required: Aster has no Last.fm app of its own yet, so each server sets its own.
+          for name in ASTER_SIMKL_CLIENT_ID ASTER_ANILIST_CLIENT_ID ASTER_MAL_CLIENT_ID ASTER_HARDCOVER_CLIENT_ID; do
             if [ -z "${!name}" ]; then
               echo "The $name secret isn't set; refusing to publish Aster for Plex without Aster's apps." >&2
               exit 1
@@ -147,8 +147,8 @@ jobs:
           ASTER_LASTFM_API_KEY: ${{ secrets.ASTER_LASTFM_API_KEY }}
           ASTER_LASTFM_SHARED_SECRET: ${{ secrets.ASTER_LASTFM_SHARED_SECRET }}
         run: |
-          for name in ASTER_SIMKL_CLIENT_ID ASTER_ANILIST_CLIENT_ID ASTER_MAL_CLIENT_ID ASTER_HARDCOVER_CLIENT_ID \
-                      ASTER_LASTFM_API_KEY ASTER_LASTFM_SHARED_SECRET; do
+          # Last.fm isn't required: Aster has no Last.fm app of its own yet, so each server sets its own.
+          for name in ASTER_SIMKL_CLIENT_ID ASTER_ANILIST_CLIENT_ID ASTER_MAL_CLIENT_ID ASTER_HARDCOVER_CLIENT_ID; do
             if [ -z "${!name}" ]; then
               echo "The $name secret isn't set; refusing to build Aster for Plex without Aster's apps." >&2
               exit 1

@@ -111,7 +111,8 @@ Set the version in `Aster.Plex/Aster.Plex.csproj`, then push a tag for it: `v0.2
 A push to any other branch than `main` publishes `:dev` for testing. Both need the `ASTER_*` service app secrets.
 
 The service app keys come in the same way as the plugin's: `ASTER_SIMKL_CLIENT_ID` and the rest, as build arguments
-for an official image. A build without them reads the server's own from `settings.json`.
+for an official image. A build without them reads the server's own from `settings.json`. Last.fm has no Aster app
+for now, so its key and secret aren't required; every server sets its own on the settings page.
 
 ## License
 
